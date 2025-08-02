@@ -115,6 +115,8 @@ export class S3Service {
 
     const key = `${randomUUID()}-${file.originalname}`;
 
+    console.log('vai enviar arquivo');
+
     await this.s3.send(
       new PutObjectCommand({
         Bucket: this.bucketName,
@@ -123,6 +125,8 @@ export class S3Service {
         ContentType: this.getContentType(file.originalname),
       }),
     );
+
+    console.log('enviou');
 
     return `https://bucket-production-ec22.up.railway.app/${this.bucketName}/${key}`;
   }
