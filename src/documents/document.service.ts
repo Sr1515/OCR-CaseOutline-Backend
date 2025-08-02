@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { S3Service } from 'src/s3/s3.service';
-import { Document, Interaction } from 'generated/prisma';
+import { Document, Interaction } from '@prisma/client';
 import { OcrService } from 'src/ocr/ocr.service';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import fetch from 'node-fetch';
