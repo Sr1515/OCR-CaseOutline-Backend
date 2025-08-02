@@ -8,7 +8,7 @@ import { SignInDTO, SignUpDTO } from './dtos/auth';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
+import { User } from 'generated/prisma';
 
 @Injectable()
 export class AuthService {

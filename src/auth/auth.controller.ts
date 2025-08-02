@@ -17,7 +17,7 @@ import {
 import { SignInDTO, SignUpDTO } from './dtos/auth';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
-import { User } from '@prisma/client';
+import { User } from 'generated/prisma';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 
