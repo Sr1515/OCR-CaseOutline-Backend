@@ -8,7 +8,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
-    origin: 'http://localhost:8080',
+    origin: 'https://ocr-caseoutline-frontend-production.up.railway.app',
     credentials: true,
   });
 
