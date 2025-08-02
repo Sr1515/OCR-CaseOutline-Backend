@@ -28,6 +28,8 @@ export class LlmService {
   constructor(private readonly prisma: PrismaService) {}
 
   private async callGemini(text: string, question: string): Promise<string> {
+    const fetch = (await import('node-fetch')).default;
+
     const body = {
       contents: [
         {
