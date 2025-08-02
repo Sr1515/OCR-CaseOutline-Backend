@@ -22,7 +22,9 @@ export class S3Service {
 
     this.s3 = new S3Client({
       region: 'us-east-1',
-      endpoint: this.configService.get<string>('MINIO_ENDPOINT'),
+      endpoint:
+        this.configService.get<string>('MINIO_ENDPOINT') ??
+        'http://localhost:9000',
       credentials: {
         accessKeyId: this.configService.get<string>('MINIO_ACCESS_KEY'),
         secretAccessKey: this.configService.get<string>('MINIO_SECRET_KEY'),
@@ -113,6 +115,7 @@ export class S3Service {
     await this.createBucketIfNotExists();
 
     const key = `${randomUUID()}-${file.originalname}`;
+
     await this.s3.send(
       new PutObjectCommand({
         Bucket: this.bucketName,
@@ -122,9 +125,6 @@ export class S3Service {
       }),
     );
 
-    const endpoint = this.configService.get<string>('MINIO_ENDPOINT');
-    const isLocal =
-      endpoint.includes('localhost') || endpoint.includes('minio');
-    return `${isLocal ? 'http' : 'https'}://${endpoint.replace(/^https?:\/\//, '')}/${this.bucketName}/${key}`;
+    return `http://localhost:9000/${this.bucketName}/${key}`;
   }
 }
