@@ -8,7 +8,7 @@ RUN npm install
 
 RUN npm run build
 
-RUN npx prisma migrate deploy
+RUN npx prisma db push
 
 EXPOSE 8080
 
