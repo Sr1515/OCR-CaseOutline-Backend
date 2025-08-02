@@ -1,13 +1,4 @@
 services:
-  postgres:
-    image: postgres:15
-    container_name: nest-postgres
-
-    ports:
-      - '5432:5432'
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
   minio:
     image: minio/minio
     container_name: nest-minio
@@ -20,5 +11,4 @@ services:
       - minio_data:/data
 
 volumes:
-  pgdata:
   minio_data:
