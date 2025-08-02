@@ -111,8 +111,6 @@ export class S3Service {
   }
 
   async uploadFile(file: Express.Multer.File): Promise<string> {
-    await this.createBucketIfNotExists();
-
     const key = `${randomUUID()}-${file.originalname}`;
 
     console.log('vai enviar arquivo');
