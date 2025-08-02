@@ -1,38 +1,48 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt"
-import { jwtConstants } from "./constants";
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private jwtService: JwtService) { }
+  constructor(private jwtService: JwtService) {}
 
-    async canActivate(context: ExecutionContext): Promise<boolean> {
-        const request = context.switchToHttp().getRequest();
-        const token = this.extractTokenFromHeader(request)
+  canActivate(context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest();
 
-        if (!token) {
-            throw new UnauthorizedException();
-        }
-
-        try {
-            const payload = await this.jwtService.verifyAsync(token, {
-                secret: jwtConstants.secret
-            });
-
-            request['user'] = payload
-        } catch (error) {
-            throw new UnauthorizedException();
-        }
-
-        return true;
+    const authHeader = request.headers['authorization'];
+    if (!authHeader) {
+      console.log('Auth header missing');
+      throw new UnauthorizedException('Authorization header missing');
     }
 
-    private extractTokenFromHeader(request: Request): string | undefined {
-        const authHeader = request.headers['authorization'];
+    const [type, token] = authHeader.split(' ');
 
-        if (!authHeader) return undefined;
-
-        const [type, token] = authHeader.split(' ');
-        return type?.toLowerCase() === 'bearer' && token ? token : undefined;
+    if (type !== 'Bearer' || !token) {
+      console.log('Auth header malformed:', authHeader);
+      throw new UnauthorizedException('Invalid authorization header format');
     }
+
+    try {
+      const payload = this.jwtService.verify(token);
+      request.user = payload;
+      return true;
+    } catch (err) {
+      console.log('JWT validation error:', err.message);
+      throw new UnauthorizedException('Invalid or expired token');
+    }
+  }
+
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const authHeader = request.headers['authorization'];
+
+    if (!authHeader) return undefined;
+
+    const [type, token] = authHeader.split(' ');
+    return type?.toLowerCase() === 'bearer' && token ? token : undefined;
+  }
 }
