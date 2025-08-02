@@ -10,7 +10,6 @@ import { S3Service } from 'src/s3/s3.service';
 import { Document, Interaction } from 'generated/prisma';
 import { OcrService } from 'src/ocr/ocr.service';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import fetch from 'node-fetch';
 
 @Injectable()
 export class DocumentsService {
