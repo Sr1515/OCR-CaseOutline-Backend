@@ -2,6 +2,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import fetch from 'node-fetch';
+import axios from 'axios';
 
 interface GeminiResponse {
   candidates?: Array<{
@@ -28,8 +29,6 @@ export class LlmService {
   constructor(private readonly prisma: PrismaService) {}
 
   private async callGemini(text: string, question: string): Promise<string> {
-    const fetch = (await import('node-fetch')).default;
-
     const body = {
       contents: [
         {
@@ -43,21 +42,14 @@ export class LlmService {
     };
 
     try {
-      const res = await fetch(this.endpoint, {
-        method: 'POST',
+      const res = await axios.post(this.endpoint, body, {
         headers: {
           'Content-Type': 'application/json',
           'X-goog-api-key': this.apiKey,
         },
-        body: JSON.stringify(body),
       });
 
-      if (!res.ok) {
-        this.logger.warn(`Gemini API retornou status ${res.status}`);
-        return 'Não foi possível gerar uma resposta.';
-      }
-
-      const data = (await res.json()) as GeminiResponse;
+      const data = res.data as GeminiResponse;
       const content = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
       if (!content) {
