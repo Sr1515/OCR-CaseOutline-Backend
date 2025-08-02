@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: nest-postgres
+    env_file:
+      - path: ./.environment/docker/.env.postgres
+        
+    ports:
+      - '5434:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    container_name: nest-minio
+    command: server /data --console-address ":9001"
+    ports:
+      - '9000:9000' 
+      - '9001:9001'
+    env_file:
+      - path: ./.environment/docker/.env.minio
+    volumes:
+      - minio_data:/data
+
+volumes:
+  pgdata:
+  minio_data:
