@@ -1,10 +1,9 @@
 node_modules
+dist
+.git
+.vscode
 npm-debug.log
 Dockerfile
 docker-compose.yml
-.git
-.gitignore
 .env.local
 .env.development
-.vscode
-dist

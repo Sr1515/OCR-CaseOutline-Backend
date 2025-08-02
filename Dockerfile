@@ -1,22 +1,20 @@
 # Stage 1 - Build
 FROM node:18-alpine AS builder
 
-# Diretório de trabalho
 WORKDIR /app
 
-# Copia package.json e package-lock.json para aproveitar cache
+# Copia package.json e package-lock.json para cache
 COPY package*.json ./
 
-# Instala dependências
 RUN npm install
 
-# Copia todo o código da aplicação
+# Copia o restante do código
 COPY . .
 
-# Gera Prisma Client
+# Gera o client do Prisma
 RUN npx prisma generate
 
-# Build do NestJS (assumindo que o comando seja npm run build)
+# Build do NestJS
 RUN npm run build
 
 
@@ -25,14 +23,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copia build e node_modules do estágio anterior
+# Copia build, node_modules e o client do Prisma
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/package*.json ./
 
-# Expor a porta da aplicação
 EXPOSE 3000
 
-# Comando para iniciar a aplicação
 CMD ["node", "dist/main.js"]
