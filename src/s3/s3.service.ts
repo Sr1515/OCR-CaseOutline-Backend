@@ -18,13 +18,13 @@ export class S3Service {
 
   constructor(private readonly configService: ConfigService) {
     this.bucketName =
-      this.configService.get<string>('MINIO_BUCKET_NAME') ?? 'posts';
+      this.configService.get<string>('MINIO_BUCKET_NAME') ?? 'ocrcase';
 
     this.s3 = new S3Client({
       region: 'us-east-1',
       endpoint:
         this.configService.get<string>('MINIO_ENDPOINT') ??
-        'http://localhost:9000',
+        'http://bucket-production-ec22.up.railway.app',
       credentials: {
         accessKeyId: this.configService.get<string>('MINIO_ACCESS_KEY'),
         secretAccessKey: this.configService.get<string>('MINIO_SECRET_KEY'),
@@ -124,6 +124,6 @@ export class S3Service {
       }),
     );
 
-    return `http://localhost:9000/${this.bucketName}/${key}`;
+    return `http://bucket-production-ec22.up.railway.app/${this.bucketName}/${key}`;
   }
 }
