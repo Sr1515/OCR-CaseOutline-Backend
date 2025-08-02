@@ -4,14 +4,11 @@ WORKDIR /app
 
 COPY . .
 
-# Instala dependências
 RUN npm install
 
-# Aplica o schema no banco de dados
-RUN npx prisma db push
-
-# Compila o projeto
 RUN npm run build
+
+RUN npx prisma db push
 
 EXPOSE 8080
 
