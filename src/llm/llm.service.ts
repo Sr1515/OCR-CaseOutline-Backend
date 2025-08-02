@@ -1,7 +1,6 @@
 // llm.service.ts
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import fetch from 'node-fetch';
 import axios from 'axios';
 
 interface GeminiResponse {
