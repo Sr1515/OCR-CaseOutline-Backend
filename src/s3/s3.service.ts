@@ -22,12 +22,10 @@ export class S3Service {
 
     this.s3 = new S3Client({
       region: 'us-east-1',
-      endpoint:
-        this.configService.get<string>('MINIO_ENDPOINT') ??
-        'http://bucket-production-ec22.up.railway.app',
+      endpoint: 'https://bucket-production-ec22.up.railway.app',
       credentials: {
-        accessKeyId: this.configService.get<string>('MINIO_ACCESS_KEY'),
-        secretAccessKey: this.configService.get<string>('MINIO_SECRET_KEY'),
+        accessKeyId: process.env.MINIO_ACCESS_KEY,
+        secretAccessKey: process.env.MINIO_SECRET_KEY,
       },
       forcePathStyle: true,
     });
