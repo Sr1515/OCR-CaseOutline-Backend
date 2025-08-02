@@ -10,7 +10,8 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'https://ocr-caseoutline-backend-production.up.railway.app',
-      'https://ocr-caseoutline-backend-production.up.railway.app',
+      'ocr-case-outline-front-end-a9ow.vercel.app',
+      /\.vercel\.app$/,
     ],
     credentials: true,
   });
