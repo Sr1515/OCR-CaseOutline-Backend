@@ -1,16 +1,18 @@
 FROM node:18-alpine AS builder
 
-WORKDIR /
-
-COPY . .
+WORKDIR /app
 
 RUN npm install
 
-RUN ls -a 
+COPY . .
 
 RUN npm run build
 
-RUN npx prisma migrate deploy
+RUN npx prisma generate
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
 
 EXPOSE 3000
 

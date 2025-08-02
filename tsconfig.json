@@ -16,10 +16,6 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "moduleResolution": "node",
-    "paths": {
-      "@prisma/client": ["node_modules/.prisma/client"]
-    }
+    "noFallthroughCasesInSwitch": false
   }
 }
