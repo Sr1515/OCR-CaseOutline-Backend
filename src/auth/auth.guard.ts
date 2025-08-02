@@ -11,33 +11,26 @@ import { jwtConstants } from './constants';
 export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
-    const authHeader = request.headers['authorization'];
+    const token = this.extractTokenFromHeader(request);
 
-    console.log(authHeader);
-
-    if (!authHeader) {
-      console.log('Auth header missing');
-      throw new UnauthorizedException('Authorization header missing');
-    }
-
-    const [type, token] = authHeader.split(' ');
-
-    if (type !== 'Bearer' || !token) {
-      console.log('Auth header malformed:', authHeader);
-      throw new UnauthorizedException('Invalid authorization header format');
+    if (!token) {
+      throw new UnauthorizedException();
     }
 
     try {
-      const payload = this.jwtService.verify(token);
-      request.user = payload;
-      return true;
-    } catch (err) {
-      console.log('JWT validation error:', err.message);
-      throw new UnauthorizedException('Invalid or expired token');
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: jwtConstants.secret,
+      });
+
+      request['user'] = payload;
+    } catch (error) {
+      throw new UnauthorizedException();
     }
+
+    return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
