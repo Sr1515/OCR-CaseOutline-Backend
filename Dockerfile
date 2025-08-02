@@ -7,14 +7,11 @@ COPY . .
 # Instala dependências
 RUN npm install
 
-# Gera o cliente Prisma (antes do build, se for necessário)
-RUN npx prisma generate
+# Aplica o schema no banco de dados
+RUN npx prisma db push
 
 # Compila o projeto
 RUN npm run build
-
-# Aplica o schema no banco de dados
-RUN npx prisma db push
 
 EXPOSE 8080
 
