@@ -93,6 +93,7 @@ export class S3Service {
 
   private getContentType(filename: string): string {
     const ext = filename.split('.').pop()?.toLowerCase();
+
     switch (ext) {
       case 'avif':
         return 'image/avif';
