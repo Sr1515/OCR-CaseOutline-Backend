@@ -4,7 +4,7 @@ services:
     container_name: nest-postgres
     env_file:
       - path: ./.environment/docker/.env.postgres
-        
+
     ports:
       - '5434:5432'
     volumes:
@@ -15,7 +15,7 @@ services:
     container_name: nest-minio
     command: server /data --console-address ":9001"
     ports:
-      - '9000:9000' 
+      - '9000:9000'
       - '9001:9001'
     env_file:
       - path: ./.environment/docker/.env.minio

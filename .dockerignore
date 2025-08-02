@@ -1,9 +1,5 @@
 node_modules
 dist
 .git
-.vscode
+.env
 npm-debug.log
-Dockerfile
-docker-compose.yml
-.env.local
-.env.development
