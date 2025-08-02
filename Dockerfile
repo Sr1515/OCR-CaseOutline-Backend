@@ -6,7 +6,9 @@ COPY . .
 
 RUN npm install
 
-RUN ls
+RUN ls -a 
+
+RUN cat .env
 
 RUN npm run build
 
