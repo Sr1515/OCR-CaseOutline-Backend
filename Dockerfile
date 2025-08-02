@@ -8,8 +8,6 @@ RUN npm install
 
 RUN ls -a 
 
-RUN cat .env
-
 RUN npm run build
 
 RUN npx prisma migrate deploy
