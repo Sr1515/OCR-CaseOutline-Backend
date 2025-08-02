@@ -124,6 +124,6 @@ export class S3Service {
       }),
     );
 
-    return `http://bucket-production-ec22.up.railway.app/${this.bucketName}/${key}`;
+    return `https://bucket-production-ec22.up.railway.app/${this.bucketName}/${key}`;
   }
 }

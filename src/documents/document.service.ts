@@ -28,9 +28,15 @@ export class DocumentsService {
     try {
       let documentUrl: string | undefined;
 
+      console.log('entrou aqui');
+
+      console.log(data.image);
+
       if (data.image) {
         documentUrl = await this.s3.uploadFile(data.image);
       }
+
+      console.log('salvou imagem');
 
       const ocrResult = await this.ocrService.runOcr(data.image.buffer);
 
